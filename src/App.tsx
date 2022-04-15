@@ -1,13 +1,67 @@
+import { useEffect, useState } from "react";
+
 import { InfoItem } from "./components/InfoItem";
 import { Button } from "./components/Button";
 
 import LogoImage from "./assets/dev_memory_logo.png";
 import RestartIcon from "./assets/svg/restart.svg";
 
-import { Container, GridArea, Info, InfoArea, LogoLink } from "./App.styles";
+import { GridItemType } from "./types/GridItemType";
+import { items } from "./data/items";
+
+import {
+  Container,
+  GridArea,
+  Info,
+  InfoArea,
+  LogoLink,
+  Grid,
+} from "./App.styles";
 
 export function App() {
-  function resetAndCreateGrid() {}
+  const [playing, setPlaying] = useState<boolean>(false);
+  const [timeElapsed, setTimeElapsed] = useState<number>(0);
+  const [movoCont, setMoveCont] = useState<number>(0);
+  const [shownCount, setShownCount] = useState<number>(0);
+  const [gridItems, setGridItems] = useState<GridItemType[]>([]);
+
+  useEffect(() => {
+    resetAndCreateGrid();
+  }, []);
+
+  function resetAndCreateGrid() {
+    setTimeElapsed(0);
+    setMoveCont(0);
+    setShownCount(0);
+    //
+    let tempGrid: GridItemType[] = [];
+
+    for (let i = 0; i < items.length * 2; i++) {
+      tempGrid.push({
+        item: null,
+        show: false,
+        permanentShow: false,
+      });
+    }
+    //
+    for (let w = 0; w < 2; w++) {
+      //
+      for (let i = 0; i < items.length; i++) {
+        let pos = -1;
+
+        while (pos < 0 || tempGrid[pos].item !== null) {
+          pos = Math.floor(Math.random() * (items.length * 2));
+        }
+
+        tempGrid[pos].item = 1;
+      }
+    }
+
+    //
+    setGridItems(tempGrid);
+    //
+    setPlaying(true);
+  }
 
   return (
     <Container>
@@ -15,6 +69,7 @@ export function App() {
         <LogoLink>
           <img src={LogoImage} width="200" />
         </LogoLink>
+
         <InfoArea>
           <InfoItem label="Tempo" value="00:00" />
           <InfoItem label="Movimentos" value="0" />
@@ -26,7 +81,9 @@ export function App() {
           onClick={resetAndCreateGrid}
         />
       </Info>
-      <GridArea></GridArea>
+      <GridArea>
+        <Grid>...</Grid>
+      </GridArea>
     </Container>
   );
 }

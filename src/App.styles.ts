@@ -48,3 +48,11 @@ export const InfoArea = styled.div`
 export const LogoLink = styled.a`
   display: block;
 `;
+
+export const Grid = styled.div`
+  width: 430px;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+`;
