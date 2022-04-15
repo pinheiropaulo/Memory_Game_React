@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { InfoItem } from "./components/InfoItem";
 import { Button } from "./components/Button";
+import { GridItem } from "./components/GridItem";
 
 import LogoImage from "./assets/dev_memory_logo.png";
 import RestartIcon from "./assets/svg/restart.svg";
@@ -25,9 +26,7 @@ export function App() {
   const [shownCount, setShownCount] = useState<number>(0);
   const [gridItems, setGridItems] = useState<GridItemType[]>([]);
 
-  useEffect(() => {
-    resetAndCreateGrid();
-  }, []);
+  useEffect(() => resetAndCreateGrid(), []);
 
   function resetAndCreateGrid() {
     setTimeElapsed(0);
@@ -43,6 +42,7 @@ export function App() {
         permanentShow: false,
       });
     }
+
     //
     for (let w = 0; w < 2; w++) {
       //
@@ -53,15 +53,18 @@ export function App() {
           pos = Math.floor(Math.random() * (items.length * 2));
         }
 
-        tempGrid[pos].item = 1;
+        tempGrid[pos].item = i;
       }
     }
 
     //
     setGridItems(tempGrid);
+
     //
     setPlaying(true);
   }
+
+  function handleItemClick(index: number) {}
 
   return (
     <Container>
@@ -82,7 +85,15 @@ export function App() {
         />
       </Info>
       <GridArea>
-        <Grid>...</Grid>
+        <Grid>
+          {gridItems.map((item, index) => (
+            <GridItem
+              key={index}
+              item={item}
+              onClick={() => handleItemClick(index)}
+            />
+          ))}
+        </Grid>
       </GridArea>
     </Container>
   );
