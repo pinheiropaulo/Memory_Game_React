@@ -1,10 +1,14 @@
 import { InfoItem } from "./components/InfoItem";
+import { Button } from "./components/Button";
 
 import LogoImage from "./assets/dev_memory_logo.png";
+import RestartIcon from "./assets/svg/restart.svg";
 
 import { Container, GridArea, Info, InfoArea, LogoLink } from "./App.styles";
 
 export function App() {
+  function resetAndCreateGrid() {}
+
   return (
     <Container>
       <Info>
@@ -16,7 +20,11 @@ export function App() {
           <InfoItem label="Movimentos" value="0" />
         </InfoArea>
 
-        <button>Reiniciar</button>
+        <Button
+          label="Reiniciar"
+          icon={RestartIcon}
+          onClick={resetAndCreateGrid}
+        />
       </Info>
       <GridArea></GridArea>
     </Container>
