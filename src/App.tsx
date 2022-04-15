@@ -10,6 +10,8 @@ import RestartIcon from "./assets/svg/restart.svg";
 import { GridItemType } from "./types/GridItemType";
 import { items } from "./data/items";
 
+import { formatTimeElapsed } from "./helpers/formatTimeElapsed";
+
 import {
   Container,
   GridArea,
@@ -27,6 +29,16 @@ export function App() {
   const [gridItems, setGridItems] = useState<GridItemType[]>([]);
 
   useEffect(() => resetAndCreateGrid(), []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (playing) {
+        setTimeElapsed(timeElapsed + 1);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [playing, timeElapsed]);
 
   function resetAndCreateGrid() {
     setTimeElapsed(0);
@@ -74,7 +86,7 @@ export function App() {
         </LogoLink>
 
         <InfoArea>
-          <InfoItem label="Tempo" value="00:00" />
+          <InfoItem label="Tempo" value={formatTimeElapsed(timeElapsed)} />
           <InfoItem label="Movimentos" value="0" />
         </InfoArea>
 
