@@ -1,6 +1,8 @@
-import { Container, GridArea, Info, InfoArea, LogoLink } from "./App.styles";
-import LogoImage from "./assets/dev_memory_logo.png";
 import { InfoItem } from "./components/InfoItem";
+
+import LogoImage from "./assets/dev_memory_logo.png";
+
+import { Container, GridArea, Info, InfoArea, LogoLink } from "./App.styles";
 
 export function App() {
   return (
