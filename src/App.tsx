@@ -23,7 +23,7 @@ import {
 export function App() {
   const [playing, setPlaying] = useState<boolean>(false);
   const [timeElapsed, setTimeElapsed] = useState<number>(0);
-  const [movoCont, setMoveCont] = useState<number>(0);
+  const [moveCont, setMoveCont] = useState<number>(0);
   const [shownCount, setShownCount] = useState<number>(0);
   const [gridItems, setGridItems] = useState<GridItemType[]>([]);
 
@@ -38,6 +38,47 @@ export function App() {
 
     return () => clearInterval(timer);
   }, [playing, timeElapsed]);
+
+  useEffect(() => {
+    if (shownCount === 2) {
+      let opened = gridItems.filter((item) => item.show === true);
+
+      if (opened.length === 2) {
+        if (opened[0].item === opened[1].item) {
+          let tempGrid = [...gridItems];
+          for (let i in tempGrid) {
+            if (tempGrid[i].show) {
+              tempGrid[i].permanentShow = true;
+              tempGrid[i].show = false;
+            }
+          }
+
+          setGridItems(tempGrid);
+          setShownCount(0);
+        } else {
+          setTimeout(() => {
+            let tempGrid = [...gridItems];
+            for (let i in tempGrid) {
+              tempGrid[i].show = false;
+            }
+            setGridItems(tempGrid);
+            setShownCount(0);
+          }, 1000);
+        }
+
+        setMoveCont((moveCont) => moveCont + 1);
+      }
+    }
+  }, [shownCount, gridItems]);
+
+  useEffect(() => {
+    if (
+      moveCont > 0 &&
+      gridItems.every((item) => item.permanentShow === true)
+    ) {
+      setPlaying(false);
+    }
+  }, [moveCont, gridItems]);
 
   function resetAndCreateGrid() {
     setTimeElapsed(0);
@@ -101,7 +142,7 @@ export function App() {
 
         <InfoArea>
           <InfoItem label="Tempo" value={formatTimeElapsed(timeElapsed)} />
-          <InfoItem label="Movimentos" value="0" />
+          <InfoItem label="Movimentos" value={moveCont.toString()} />
         </InfoArea>
 
         <Button
