@@ -7,6 +7,7 @@ export const Container = styled.div`
 export const Label = styled.div`
   font-size: 16px;
   color: #6a7d8b;
+  margin-bottom: 4px;
 `;
 
 export const Value = styled.div`

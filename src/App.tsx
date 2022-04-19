@@ -9,7 +9,6 @@ import RestartIcon from "./assets/svg/restart.svg";
 
 import { GridItemType } from "./types/GridItemType";
 import { items } from "./data/items";
-
 import { formatTimeElapsed } from "./helpers/formatTimeElapsed";
 
 import {
@@ -76,7 +75,22 @@ export function App() {
     setPlaying(true);
   }
 
-  function handleItemClick(index: number) {}
+  function handleItemClick(index: number) {
+    if (playing && index !== null && shownCount < 2) {
+      let tempGrid = [...gridItems];
+
+      if (
+        tempGrid[index].permanentShow === false &&
+        tempGrid[index].show === false
+      ) {
+        tempGrid[index].show = true;
+
+        setShownCount(shownCount + 1);
+      }
+
+      setGridItems(tempGrid);
+    }
+  }
 
   return (
     <Container>
